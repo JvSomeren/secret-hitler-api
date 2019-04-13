@@ -63,6 +63,17 @@ class Lobby {
       return id === lobby.id;
     } );
   }
+
+  static removeOldLobbies() {
+    const now = Date.now();
+    const day = 60 * 60 * 24 * 1000; // full day in milliseconds
+
+    return this.lobbies = this.lobbies.reduceRight( function( lobbies, lobby ) {
+      if( now - lobby.started > day ) return lobbies;
+
+      return lobbies.concat( lobby );
+    }, [] );
+  }
 }
 Lobby.lobbies = [];
 

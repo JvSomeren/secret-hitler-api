@@ -6,14 +6,17 @@ const routes = require( './routes' );
 
 const port = process.env.PORT || 3000;
 
-
 /**
  * Configure CORS
  */
-const whitelist = [
-  /http:\/\/localhost:*/,
-  /\.someren\.dev$/,
-];
+const whitelist = process.env.NODE_END === 'development' ?
+  [
+    /http:\/\/localhost:*/,
+    /\.someren\.dev$/,
+  ] :
+  [
+    /\.someren\.dev$/,
+  ];
 const corsOptions = {
   origin: whitelist,
   optionsSuccessStatus: 200,

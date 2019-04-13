@@ -2,7 +2,8 @@
   "name": "secret-hitler-api",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon --inspect ."
+    "start": "NODE_ENV=production node index.js",
+    "dev": " NODE_ENV=development nodemon --inspect index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -3,13 +3,19 @@ const router = express.Router();
 
 const Lobby = require( './lobby' );
 
+function onlyLocalhost( req, res, next ) {
+  const { hostname } = req;
+
+  if( hostname === '127.0.0.1' || hostname === 'localhost' ) return next();
+  res.status( 401 ).send( 'Unauthorized' );
+}
+
 /**
  * method: GET
  * path: ``
  * returns: Lobby[]
  */
-router.get( '/', function( req, res ) {
-  // @TODO only allow origin localhost
+router.get( '/', onlyLocalhost, function( req, res ) {
   res.json( Lobby.getAll() );
 } );
 
@@ -22,6 +28,15 @@ router.get( '/new', function( req, res ) {
   const lobby = new Lobby();
 
   res.json( { id: lobby.id } );
+} );
+
+/**
+ * method: POST
+ * path: `/removeOldLobbies`
+ * returns: success || failure
+ */
+router.delete( '/removeOldLobbies', onlyLocalhost, function( req, res ) {
+  res.json( Lobby.removeOldLobbies() );
 } );
 
 /**
@@ -42,7 +57,7 @@ router.get( '/:id', function( req, res ) {
  * path: `/:id`
  * returns: success || failure
  */
-router.delete( '/:id', function( req, res ) { // @TODO only allow origin localhost
+router.delete( '/:id', onlyLocalhost, function( req, res ) {
   if( Lobby.remove( req.params.id ) ) return res.status( 200 ).send( 'Lobby removed' );
 
   return res.status( 404 ).send( 'Lobby not found' );
