@@ -5,6 +5,16 @@ const Lobby = require( './lobby' );
 
 /**
  * method: GET
+ * path: ``
+ * returns: Lobby[]
+ */
+router.get( '/', function( req, res ) {
+  // @TODO only allow origin localhost
+  res.json( Lobby.getAll() );
+} );
+
+/**
+ * method: GET
  * path: `/new`
  * returns: lobbyId
  */

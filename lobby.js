@@ -1,5 +1,3 @@
-let lobbies = [];
-
 function uidGenerator() {
   const uid = (((1+Math.random())*0x10000)|0).toString(16).substring(1).toUpperCase();
 
@@ -13,7 +11,7 @@ class Lobby {
     this.started = Date.now();
     this.peers = [];
 
-    lobbies.push( this );
+    Lobby.addLobby( this );
   }
 
   addPeer( peerId ) {
@@ -26,25 +24,46 @@ class Lobby {
     if( index !== -1 ) this.peers.splice( index, 1 );
   }
 
+  static get lobbies() {
+    return this.hasOwnProperty( '_lobbies' ) ? this._lobbies : [];
+  }
+
+  static set lobbies( lobbies ) {
+    this._lobbies = lobbies;
+  }
+
+  static addLobby( lobby ) {
+    this._lobbies.push( lobby );
+  }
+
+  static removeLobby( index ) {
+    if( index === -1 ) return false;
+    return !!this._lobbies.splice( index, 1 );
+  }
+
   static get( id ) {
-    return ( lobbies.filter( function( lobby ) {
+    return ( this.lobbies.filter( function( lobby ) {
       return id === lobby.id;
     } ) || [] )[0];
   }
 
   static getAll() {
-    return lobbies;
+    return this.lobbies;
   }
 
   static remove( id ) {
+    const index = this.lobbyIndex( id );
 
+    if( index === -1 ) return false;
+    return this.removeLobby( index );
   }
 
   static lobbyIndex( id ) {
-    return lobbies.findIndex( function( lobby ) {
+    return this.lobbies.findIndex( function( lobby ) {
       return id === lobby.id;
     } );
   }
 }
+Lobby.lobbies = [];
 
 module.exports = Lobby;
