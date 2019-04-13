@@ -9,7 +9,7 @@ const Lobby = require( './lobby' );
  * returns: lobbyId
  */
 router.get( '/new', function( req, res ) {
-  const lobby = Lobby.create();
+  const lobby = new Lobby();
 
   res.json( { id: lobby.id } );
 } );
@@ -24,7 +24,7 @@ router.get( '/:id', function( req, res ) {
 
   if( !lobby ) return res.status( 404 ).send( 'Lobby not found' );
 
-  res.json( lobby.toJSON() );
+  res.json( lobby );
 } );
 
 /**
@@ -49,7 +49,7 @@ router.post( '/:id/addpeer/:peerid', function( req, res ) {
   if( !lobby ) return res.status( 404 ).send( 'Lobby not found' );
 
   lobby.addPeer( req.params.peerid );
-  res.json( lobby.toJSON() );
+  res.json( lobby );
 } );
 
 /**
@@ -63,7 +63,7 @@ router.post( '/:id/removepeer/:peerid', function( req, res ) {
   if( !lobby ) return res.status( 404 ).send( 'Lobby not found' );
 
   lobby.removePeer( req.params.peerid );
-  res.json( lobby.toJSON() );
+  res.json( lobby );
 } );
 
 module.exports = router;
