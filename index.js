@@ -11,8 +11,8 @@ const port = process.env.PORT || 3000;
  * Configure CORS
  */
 const whitelist = [
-  'http://localhost:*',
-  '/\.someren\.dev$',
+  /http:\/\/localhost:*/,
+  /\.someren\.dev$/,
 ];
 const corsOptions = {
   origin: whitelist,
