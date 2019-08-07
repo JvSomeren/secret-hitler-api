@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 /**
  * Configure CORS
  */
-const whitelist = process.env.NODE_END === 'development' ?
+const whitelist = process.env.NODE_ENV === 'development' ?
   [
     /http:\/\/localhost:*/,
     /\.someren\.dev$/,
