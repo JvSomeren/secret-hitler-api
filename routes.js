@@ -47,7 +47,10 @@ router.delete( '/removeOldLobbies', onlyLocalhost, function( req, res ) {
 router.get( '/:id', function( req, res ) {
   const lobby = Lobby.get( req.params.id );
 
-  if( !lobby ) return res.status( 404 ).send( 'Lobby not found' );
+  if( !lobby ) return res.json( {
+    status: 404,
+    message: 'Lobby not found',
+  } );
 
   res.json( lobby );
 } );
@@ -60,7 +63,10 @@ router.get( '/:id', function( req, res ) {
 router.delete( '/:id', onlyLocalhost, function( req, res ) {
   if( Lobby.remove( req.params.id ) ) return res.status( 200 ).send( 'Lobby removed' );
 
-  return res.status( 404 ).send( 'Lobby not found' );
+  return res.json( {
+    status: 404,
+    message: 'Lobby not found',
+  } );
 } );
 
 /**
@@ -71,7 +77,10 @@ router.delete( '/:id', onlyLocalhost, function( req, res ) {
 router.post( '/:id/addpeer/:peerid', function( req, res ) {
   const lobby = Lobby.get( req.params.id );
 
-  if( !lobby ) return res.status( 404 ).send( 'Lobby not found' );
+  if( !lobby ) return res.json( {
+    status: 404,
+    message: 'Lobby not found',
+  } );
 
   lobby.addPeer( req.params.peerid );
   res.json( lobby );
@@ -85,7 +94,10 @@ router.post( '/:id/addpeer/:peerid', function( req, res ) {
 router.post( '/:id/removepeer/:peerid', function( req, res ) {
   const lobby = Lobby.get( req.params.id );
 
-  if( !lobby ) return res.status( 404 ).send( 'Lobby not found' );
+  if( !lobby ) return res.json( {
+    status: 404,
+    message: 'Lobby not found',
+  } );
 
   lobby.removePeer( req.params.peerid );
   res.json( lobby );
