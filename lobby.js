@@ -10,6 +10,7 @@ class Lobby {
     this.id = uidGenerator();
     this.started = Date.now();
     this.peers = [];
+    this.host = null;
 
     Lobby.addLobby( this );
   }
@@ -22,6 +23,10 @@ class Lobby {
   removePeer( peerId ) {
     const index = this.peers.lastIndexOf( peerId );
     if( index !== -1 ) this.peers.splice( index, 1 );
+  }
+
+  setHost( peerId ) {
+    this.host = peerId;
   }
 
   static get lobbies() {
